@@ -1,0 +1,105 @@
+Pseudo-code Solution for Alignment Programming Challenge: Venngage Interview, July 3rd, 2019:
+
+n nodes implemented in HTML, styled in CSS, which can be dragged around an 800px*600px container. The nodes can different shapes in various sizes.
+
+The task is to implement functions.
+These functions should be able to:
+find the closest node to node X, as node X moves around the page.
+align node X to the whole page left, right and center.
+
+there exist 3 functions in the javascript implementation for dragging of multiple objects around the viewport.
+These are dragStart(), dragEnd(), and drag(). 
+The dragStart function is triggered by the event of a mouse hover and click over the object to be moved; the dragEnd function deals with when the mouse click is stopped and the object dragging has stopped occurring; the drag function deals with the duration of the object being dragged around the viewport. The function that must be implemented to find the closest node to x as it moves around the page is contained within the drag() function, as is the case with the function which must align node X to the whole page, left, right and center. These functions may be called findClosest() and alignPage(). It must also be taken into consideration that each shape is contained in a rectangular box, with 4 points of interest and 4 relevant axis values, namely the bottom left X coordinate, the bottom right X coordinate, the horizontal center X coordinate and the vertical center Y coordinate. The top right coordinates aren’t necessary as the Y is the same as the top left and the x is the same as the bottom right. As the object is moved across the page, the 4 points on the reference object are compared to the 4 points of other objects present in the viewport. The solutions are maintained in an array, from which the closest ones can be observed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+//this functions purpose is to take the activeShape as a reference and as it moves around the page,
+calculate the distance in pixels between the relevant corner coordinate values and those of the closest node to 
+the active shape. It will be called within the event driven drag() function in main.js.
+
+function findClosest(activeShape){
+
+	//this array will be populated with all the present shapes on the page within the viewport
+	create array called myShapes, which scans html documents of class '.shape';
+
+	check if activeShape is equal to an element present in the array; //we do not want to compare the activeShape coordinates to itself
+
+	create 4 arrays, leftX, rightX, hCenter, vCenter; //these maintain the difference between the activeShape coordinates and other objects
+
+	let dimensions = activeShape.getBoundingClientRect(); //get bounding box object of node with coordinate properties
+
+	calculate the hCenter coordinate of the activeShape by (dimensions.left + (dimensions.width/2));
+
+	calculate the vCenter coordinate of the activeShape by (dimensions.top + (dimensions.height/2));
+
+	//in the step below, debouncing is a good idea, 20 times/sec is okay as a user will not be dragging so quickly
+	calculate the difference between activeShape coordinates and those of the elements of myShapes every 50 ms;
+
+	store these values seperately in the arrays created, each element i corresponding to the i of myShapes;
+
+	check the arrays to see if the value of the difference between the x or y coordinates in each array are below a certain threshold (3px);
+
+	if they are, call align() function; 
+
+}
+
+
+
+
+
+
+//This function allows for the node to be alligned to the page, left right and center, similar to findClosest
+
+function alignPage(activeShape){
+	//the dimensions of the page and the coordinates of the left, right and centres are already known;
+	create an array containing the activeShape coordinates, with elements, leftX, rightX, hCenter, vCenter;
+
+	create an array containing the coordinates of page, with elements leftX=0, rightX = 800, hCenter = 400, vCenter = 300;
+	 
+	//again, debouncing is a good idea 
+	loop through the arrays and find the difference between the values during the drag event and store in third array every 50ms;
+
+	if any value falls below a certain threshold value (3px), call the align function;
+	
+}
+
+
+
+
+
+
+//This function performs the actual alignment of the activeShape to either the page or another node
+align(shape){
+	shift the x or y of activeShape by the amount of pixels calculated and stored in the array;
+
+	check if the value is an x value difference;
+
+	if it is positive, shift left by subtracting difference value;
+
+	if it is negative, shift right;
+
+	draw a line 2px wide and length equal to the Y coordinate difference between the two nodes in case of leftX, rightX and hCenter alignment;
+
+
+	else check if it is a y value difference;
+
+	if it is positive, shift up by subtracting difference;
+
+	if it is negative, shift down by adding difference;
+
+	draw a line 2px wide and length equal to the X coordinate difference between the two nodes in case of vCenter alignment;
+}
+
+
+	
+

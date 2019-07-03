@@ -1,0 +1,35 @@
+Assume you have n objects (or nodes) on the page and the screen viewport is 800x600px. For the purposes of this project, you are required to implement an alignment feature where as a user, I can drag and drop items and it will automatically align to the closest node. I can drag items to the left, right, up or down. You can assume that a node is an object on the page of various shapes and sizes.
+
+
+Feature Requirements
+When a user is moving a node in the page, the node can align to:
+	•	other nodes: 
+	◦	Left 
+	◦	Right 
+	◦	Center 
+	•	the page 
+	◦	Left 
+	◦	Right 
+	◦	Center 
+
+Deliverable
+Note that you do not have to implement the actual feature, pseudo-code will suffice. Create the functions required to implement this feature. These functions should be able to:
+	1.	find the closest node to node X, as node X moves around the page. 
+	2.	align node X to the whole page left, right and center.
+
+
+
+
+Solution:
+
+notes:
+800x600px viewport is given with n nodes(elements).
+Each element has a bounding box, which has certain properties (Middle point(horizontal and vertical), horizontal bounds, and vertical bounds.
+The node that is selected must automatically align to the closest node(left, right, center) or the page(left, right, center).
+Possible implementation: All existing nodes’ bounds should be stored as objects when placed into the viewport, with he properties of the object being vCenter, hCenter, vUpper, vLower, hUpper and hLower. vCenter can be calculated by subtracting vUpper and vLower and dividing by 2, and hCenter can be computed similarly. The page itself has vUpper as 600px, vLower as 0px, hUpper as 800px, hLower as 0px, vCenter as 300px and hCenter as 400px.
+add data properties to html, javascript
+add attribute to html element
+snap threshold distance (not one pixel at a time)
+debouncing on drag event (only fire on 2nd third event)
+
+
